@@ -21,22 +21,17 @@ Due date: Nov 16, 2021
 - Each team member should write a report that focuses on their contribution to the project.  The report should include:
 
 
-Abstract: project summary, 250 words or less.
+1. Abstract: project summary, 250 words or less.
 
+2. Results: show the outcome of the project.
 
-Results: show the outcome of the project.
+3. Contribution: describe your own contribution to the project as specifically as possible (in contrast to what your teammate did).
 
+4. Extensions
 
-Contribution: describe your own contribution to the project as specifically as possible (in contrast to what your teammate did).
+5. Team experience reflection: a summary of the lessons learned from the team experience (you can include a description of any team issues here).
 
-
-Extensions
-
-
-Team experience reflection: a summary of the lessons learned from the team experience (you can include a description of any team issues here).
-
-
-References
+6. References
 
 
 # Extension:

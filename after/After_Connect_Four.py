@@ -6,152 +6,160 @@ course: CS151 fall
 description: 
 '''
 
+from _typeshed import Self
 import turtle
 
+class Window():
+    def __init__(turtle,window_title,bgcolor,size):
+        self.window_title=window_title
+        self.bgcolor=bgcolor
+        self.size=size
+        self.turtle=turtle
 
-def make_window(window_title, bgcolor, size):
-	''' this function creates a screen object and returns it '''
+    def make_window():
+        ''' this function creates a screen object and returns it '''
 
-	window = turtle.getscreen() # Set the window size
-	window.title(window_title)
-	window.bgcolor(bgcolor)
-	window.setup(*size)
-	window.tracer(0) #turns off screen updates for the window Speeds up the game
-	return window
+        window = self.turtle.getscreen() # Set the window size
+        window.title(self.window_title)
+        window.bgcolor(self.bgcolor)
+        window.setup(self.size)
+        window.tracer(0) #turns off screen updates for the window Speeds up the game
+        return window
 
+class Turtle():
 
-def make_turtle(shape, color, stretch_size, size):
-    ''' creates a turtle and sets initial position '''
+    def __init__(turtle,shape,color,stretch_size,size):
+        this.turtle=turtle
+        this.color=color
+        this.stretch_size=stretch_size
+        this.size=size
 
-    turt = turtle.Turtle()
-    turt.speed(0)    # Speed of animation, 0 is max
-    turt.shape(shape)
-    turt.color(color)
-    turt.shapesize(*stretch_size) 
-    turt.penup()
-    turt.goto(*size) # Start position
-    return turt
+    def make_turtle():
+        ''' creates a turtle and sets initial position '''
 
+        turt = this.turtle.Turtle()
+        turt.speed(0)    # Speed of animation, 0 is max
+        turt.shape(self.shape)
+        turt.color(Self.color)
+        turt.shapesize(*self.stretch_size) 
+        turt.penup()
+        turt.goto(*self.size) # Start position
+        return turt
 
-def draw_grid(grid, turt, x_pos, y_pos, tile_size):
-    ''' draws a grid at x, y with a specific tile_size '''
+class Grid():
+    def __init__(turtle,nrow,ncol,tile_size):
+        self.turt=turtle
+        self.grid=[]
+        self.tile_size=tile_size
+        self.player_color = {1 : "red", 2 : "yellow", 0 : "white"}
 
-    place_turtle(turt, (x_pos, y_pos))
-
-    for row in range(len(grid)):
-        for col in range(len(grid[row])):
-            place_turtle(turt, (x_pos + col * tile_size, y_pos -row * tile_size))
-
-            draw_dot(grid, turt, tile_size,  grid[row][col])
-
-def place_turtle(turt, pos):
-    turt.up()
-    turt.goto(*pos)
-    turt.down()
-
-def draw_dot(grid, turt, tile_size, player):
-    player_color = {1 : "red", 2 : "yellow", 0 : "white"}
-    # draw color based of player value
-    turt.dot(tile_size-5, player_color[player])
-
-
-def check_win(grid, player, last_row, last_col):
-    ''' checks the winner in the grid
-    returns true if player won
-    returns false if player lost
-     '''
-    rows = grid[last_row]
-    cols = []
-    for i in range(len(grid)):
-        cols.append(grid[i][last_col])
-
-    count = 0
-    # Check rows
-    for i in rows:
-        if i == player:
-            count += 1
-        else:
-            count = 0
-        if count == 4:
-            return True
+        for rows in range(nrow):
+            self.grid.append([0]*ncol)
     
-    # Check cols
-    for i in cols:
-        if i == player:
-            count += 1
-        else:
-            count = 0
-        if count == 4:
-            return True
+    def draw_grid( x_pos, y_pos):
+        ''' draws a grid at x, y with a specific tile_size '''
 
-    # check diagonal
-    for row in range(2):
-        for col in range(len(grid[0])):
-            if col + 3 < len(grid[row]):
-                if grid[row][col] == player\
-                   and grid[row+1][col+1] == player\
-                   and grid[row+2][col+2] == player\
-                   and grid[row+3][col+3] == player:
-                   return True 
-            
-            if col - 3 >= 0:
-                if grid[row][col] == player\
-                   and grid[row+1][col-1] == player\
-                   and grid[row+2][col-2] == player\
-                   and grid[row+3][col-3] == player:
-                   return True 
+        place_turtle(x_pos, y_pos)
 
-def play(x_pos, y_pos):
-    ''' '''
-    global turn
-    row = int(abs((y_pos - y_offset - 25) // (50) + 1))
-    col = int(abs((x_pos - x_offset - 25) // (50) + 1))
-    print(row, col)
-    grid[row][col] = turn
-    draw_grid(grid, my_turtle, x_offset, y_offset, tile_size)
-    window.update()
+        for row in range(len(self.grid)):
+            for col in range(len(self.grid[row])):
+                place_turtle( (x_pos + col * self.tile_size, y_pos -row * self.tile_size))
 
-    if check_win(grid, turn, row, col):
-        print("player " + str(turn) + " won")
+                draw_dot(self.grid,self.tile_size,  self.grid[row][col])
 
-    if turn == 1:
-        turn = 2
-    else:
-        turn = 1
+    def place_turtle( pos):
+        self.turt.up()
+        self.turt.goto(*pos)
+        self.turt.down()
 
-def main():
-    ''' the main function where the game events take place '''
+    def draw_dot(player):
+        # draw color based of player value
+        self.turt.dot(self.tile_size-5, self.player_color[player])
 
-    global turn
 
-    draw_grid(grid, my_turtle, x_offset, y_offset, tile_size)
+    def check_win( player, last_row, last_col):
+        ''' checks the winner in the grid
+        returns true if player won
+        returns false if player lost
+        '''
+        rows = grid[last_row]
+        cols = []
+        for i in range(len(self.grid)):
+            cols.append(self.grid[i][last_col])
 
-    while True:
-        selected_row = int(input("enter row, player "+ str(turn) +": "))
-        selected_col = int(input("enter col, player "+ str(turn) +": "))
-        play(selected_row, selected_col)
+        count = 0
+        # Check rows
+        for i in rows:
+            if i == player:
+                count += 1
+            else:
+                count = 0
+            if count == 4:
+                return True
         
-    # window.exitonclick()
+        # Check cols
+        for i in cols:
+            if i == player:
+                count += 1
+            else:
+                count = 0
+            if count == 4:
+                return True
 
-if __name__ == "__main__":
+        # check diagonal
+        for row in range(2):
+            for col in range(len(self.grid[0])):
+                if col + 3 < len(self.grid[row]):
+                    if self.grid[row][col] == player\
+                    and self.grid[row+1][col+1] == player\
+                    and self.grid[row+2][col+2] == player\
+                    and self.grid[row+3][col+3] == player:
+                    return True 
+                
+                if col - 3 >= 0:
+                    if self.grid[row][col] == player\
+                    and self.grid[row+1][col-1] == player\
+                    and self.grid[row+2][col-2] == player\
+                    and self.grid[row+3][col-3] == player:
+                    return True 
+
+    def play(x_pos, y_pos):
+        ''' '''
+        global turn
+        row = int(abs((y_pos - self.y_offset - 25) // (50) + 1))
+        col = int(abs((x_pos - self.x_offset - 25) // (50) + 1))
+        print(row, col)
+        grid[row][col] = turn
+        draw_grid(self.x_offset, self.y_offset)
+        window.update()
+
+        if check_win(turn, row, col):
+            print("player " + str(turn) + " won")
+
+        if turn == 1:
+            turn = 2
+        else:
+            turn = 1
+
+
+class Game():
+    def __init__(x_offset=-150,y_offset=200,tile_size=50,window_length=800,window_width=600,nrow=5,ncol=7):
     # setting up the window
-    window = make_window("Connect 4", "light sky blue", (800, 600))
 
-    # the grid
-    grid = []
+        window = make_window("Connect 4", "light sky blue", (window_length, window_width))
 
-    for rows in range(5):
-        grid.append([0]*7)
 
-    # drawing_turtle
-    my_turtle = make_turtle('classic', "white", (1, 1), (0, 0))
 
-    x_offset = -150
-    y_offset = 200
-    tile_size = 50
+        my_turtle = make_turtle('classic', "white", (1, 1), (0, 0))
 
-    turn = 1
 
-    window.onscreenclick(play)
-    window.listen()
-    main()
+        window.onscreenclick(play)
+        window.listen()
+
+        draw_grid( x_offset, y_offset)
+
+        while True: 
+            selected_row = int(input("enter row, player "+ str(turn) +": "))
+            selected_col = int(input("enter col, player "+ str(turn) +": "))
+            play(selected_row, selected_col)
+``

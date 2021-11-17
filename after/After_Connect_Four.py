@@ -6,7 +6,6 @@ course: CS151 fall
 description: 
 '''
 
-from _typeshed import Self
 import turtle
 
 class Window():
@@ -29,10 +28,10 @@ class Window():
 class Turtle():
 
     def __init__(turtle,shape,color,stretch_size,size):
-        this.turtle=turtle
-        this.color=color
-        this.stretch_size=stretch_size
-        this.size=size
+        self.turtle=turtle
+        self.color=color
+        self.stretch_size=stretch_size
+        self.size=size
 
     def make_turtle():
         ''' creates a turtle and sets initial position '''
@@ -114,14 +113,14 @@ class Grid():
                     and self.grid[row+1][col+1] == player\
                     and self.grid[row+2][col+2] == player\
                     and self.grid[row+3][col+3] == player:
-                    return True 
+                        return True 
                 
                 if col - 3 >= 0:
                     if self.grid[row][col] == player\
                     and self.grid[row+1][col-1] == player\
                     and self.grid[row+2][col-2] == player\
                     and self.grid[row+3][col-3] == player:
-                    return True 
+                        return True 
 
     def play(x_pos, y_pos):
         ''' '''
@@ -162,4 +161,3 @@ class Game():
             selected_row = int(input("enter row, player "+ str(turn) +": "))
             selected_col = int(input("enter col, player "+ str(turn) +": "))
             play(selected_row, selected_col)
-``

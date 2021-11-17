@@ -114,14 +114,14 @@ class Grid():
                     and self.grid[row+1][col+1] == player\
                     and self.grid[row+2][col+2] == player\
                     and self.grid[row+3][col+3] == player:
-                    return True 
+                        return True 
                 
                 if col - 3 >= 0:
                     if self.grid[row][col] == player\
                     and self.grid[row+1][col-1] == player\
                     and self.grid[row+2][col-2] == player\
                     and self.grid[row+3][col-3] == player:
-                    return True 
+                        return True 
 
     def play(x_pos, y_pos):
         ''' '''
@@ -162,4 +162,3 @@ class Game():
             selected_row = int(input("enter row, player "+ str(turn) +": "))
             selected_col = int(input("enter col, player "+ str(turn) +": "))
             play(selected_row, selected_col)
-``

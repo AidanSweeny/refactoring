@@ -10,23 +10,17 @@ import turtle
 
 class Turtle:
     def __init__(self, shape,color,stretch_size,size):
-        self.turtle = turtle
         self.color=color
         self.stretch_size=stretch_size
         self.size=size
         self.shape=shape
-
-    def make_turtle(self):
-        ''' creates a turtle and sets initial position '''
-
-        turt = self.turtle.Turtle()
-        turt.speed(0)    # Speed of animation, 0 is max
-        turt.shape(self.shape)
-        turt.color(self.color)
-        turt.shapesize(*self.stretch_size) 
-        turt.penup()
-        turt.goto(*self.size) # Start position
-        return turt
+        self.turtle = turtle.Turtle()
+        self.turtle.speed(0)    # Speed of animation, 0 is max
+        self.turtle.shape(self.shape)
+        self.turtle.color(self.color)
+        self.turtle.shapesize(*self.stretch_size) 
+        self.turtle.penup()
+        self.turtle.goto(*self.size) # Start position
 
     def get_size(self):
         return self.size
@@ -151,23 +145,14 @@ def main():
     score_player1 = 0
     score_player2 = 0
 
-    # paddels
-    paddle_1_turt = Turtle("square", "white", (5, 1), (-350, 0))
-    paddle_2_turt = Turtle("square", "white", (5, 1), (350, 0))
-    paddle_1_turt.make_turtle()
-    paddle_2_turt.make_turtle()
-
-    paddle_1 = Paddle(paddle_1_turt)
-    paddle_2 = Paddle(paddle_2_turt)
+    paddle_1 = Paddle(Turtle("square", "white", (5, 1), (-350, 0)))
+    paddle_2 = Paddle(Turtle("square", "white", (5, 1), (350, 0)))
 
     # ball
-    ball_turt = Turtle("square", "white", (1, 1), (0, 0))
-    ball_turt.make_turtle()
-    ball = Ball(ball_turt)
+    ball = Ball(Turtle("square", "white", (1, 1), (0, 0)))
 
     # Pen
-    pen_turt = Turtle("square", "white", (1, 1), (0, 260))
-    pen = pen_turt.make_turtle()
+    pen = Turtle("square", "white", (1, 1), (0, 260)).get_turtle()
     pen.write("Player A: 0  Player B: 0", align="center", font=("Courier", 24, "normal"))
     pen.hideturtle()
 

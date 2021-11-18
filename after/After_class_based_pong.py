@@ -136,6 +136,15 @@ def checkKeys(window, paddle_1, paddle_2):
     window.onkeypress(paddle_2.up, "Up")
     window.onkeypress(paddle_2.down, "Down")    
 
+def rewrite_score(pen, ball, score_player1, score_player2):
+    pen.clear()
+    pen.write("Player A: "+ str(score_player1) + "  Player B: "+ str(score_player2), align="center", font=("Courier", 24, "normal"))
+    ball.goto(0, 0)
+    ball.ball_speed_x *= -1
+
+def check_colision(player):
+    return if ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() < player.get_ycor() + 50 and ball.ycor() > paddle_1.get_ycor() - 50:
+
 def main():
     ''' the main function where the game events take place '''
 
@@ -166,25 +175,18 @@ def main():
         # Border checking    
         # Left and right
         if ball.xcor() > 350:
-            score_player1 += 1
-            pen.clear()
-            pen.write("Player A: "+ str(score_player1) + "  Player B: "+ str(score_player2), align="center", font=("Courier", 24, "normal"))
-            ball.goto(0, 0)
-            ball.ball_speed_x *= -1
+            rewrite_score(pen, ball, score_player1, score_player2)
 
         elif ball.xcor() < -350:
             score_player2 += 1
-            pen.clear()
-            pen.write("Player A: "+ str(score_player1) + "  Player B: "+ str(score_player2), align="center", font=("Courier", 24, "normal"))
-            ball.goto(0, 0)
-            ball.ball_speed_x *= -1
+            rewrite_score(pen, ball, score_player1, score_player2)
 
         # Paddle and ball collisions
-        if ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() < paddle_1.get_ycor() + 50 and ball.ycor() > paddle_1.get_ycor() - 50:
+        if check_colision(paddle_1):
             ball.setx(-340)
             ball.ball_speed_x *= -1.5
         
-        elif ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < paddle_2.get_ycor() + 50 and ball.ycor() > paddle_2.get_ycor() - 50:
+        elif check_colision(paddle_2):
             ball.setx(340)
             ball.ball_speed_x *= -1.5
 

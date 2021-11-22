@@ -9,79 +9,84 @@ description:
 import turtle
 
 class Window():
-    def __init__(turtle,window_title,bgcolor,size):
+    def __init__(self,window_title,bgcolor,size):
         self.window_title=window_title
         self.bgcolor=bgcolor
         self.size=size
-        self.turtle=turtle
 
-    def make_window():
+    def make_window(self):
         ''' this function creates a screen object and returns it '''
 
-        window = self.turtle.getscreen() # Set the window size
+        window = turtle.getscreen() # Set the window size
         window.title(self.window_title)
         window.bgcolor(self.bgcolor)
-        window.setup(self.size)
+        window.setup(*self.size)
         window.tracer(0) #turns off screen updates for the window Speeds up the game
         return window
-
+        
 class Turtle():
 
-    def __init__(turtle,shape,color,stretch_size,size):
-        self.turtle=turtle
+    def __init__(self,shape,color,stretch_size,size):
+        self.turt=turtle.Turtle
         self.color=color
         self.stretch_size=stretch_size
         self.size=size
+        self.shape=shape
 
-    def make_turtle():
+    def make_turtle(self):
         ''' creates a turtle and sets initial position '''
 
-        turt = this.turtle.Turtle()
-        turt.speed(0)    # Speed of animation, 0 is max
-        turt.shape(self.shape)
-        turt.color(Self.color)
-        turt.shapesize(*self.stretch_size) 
-        turt.penup()
-        turt.goto(*self.size) # Start position
-        return turt
+        self.turt = turtle.Turtle()
+        self.turt.speed(0)    # Speed of animation, 0 is max
+        self.turt.shape(self.shape)
+        self.turt.color(self.color)
+        self.turt.shapesize(*self.stretch_size) 
+        self.turt.penup()
+        self.turt.goto(*self.size) # Start position
+        
+    def get_turtle(self):
+        return self.turt
 
 class Grid():
-    def __init__(turtle,nrow,ncol,tile_size):
+    def __init__(self,window,turtle,nrow,ncol,x_offset,y_offset,tile_size):
+        self.window=window
         self.turt=turtle
         self.grid=[]
         self.tile_size=tile_size
         self.player_color = {1 : "red", 2 : "yellow", 0 : "white"}
-
+        self.turn=1
+        self.x_offset=x_offset
+        self.y_offset=y_offset
         for rows in range(nrow):
             self.grid.append([0]*ncol)
     
-    def draw_grid( x_pos, y_pos):
+    def draw_grid(self):
         ''' draws a grid at x, y with a specific tile_size '''
 
-        place_turtle(x_pos, y_pos)
+        self.place_turtle((self.x_offset, self.y_offset))
 
         for row in range(len(self.grid)):
             for col in range(len(self.grid[row])):
-                place_turtle( (x_pos + col * self.tile_size, y_pos -row * self.tile_size))
+                self.place_turtle( (self.x_offset + col * self.tile_size, self.y_offset -row * self.tile_size))
 
-                draw_dot(self.grid,self.tile_size,  self.grid[row][col])
+                self.draw_dot(self.grid[row][col])
 
-    def place_turtle( pos):
+    def place_turtle(self, pos):
         self.turt.up()
         self.turt.goto(*pos)
         self.turt.down()
 
-    def draw_dot(player):
+    def draw_dot(self,player):
         # draw color based of player value
         self.turt.dot(self.tile_size-5, self.player_color[player])
 
 
-    def check_win( player, last_row, last_col):
+    def check_win(self,player, last_row, last_col):
         ''' checks the winner in the grid
         returns true if player won
         returns false if player lost
         '''
-        rows = grid[last_row]
+        rows = self.grid[last_row]
         cols = []
         for i in range(len(self.grid)):
             cols.append(self.grid[i][last_col])
@@ -122,42 +127,40 @@ class Grid():
                     and self.grid[row+3][col-3] == player:
                         return True 
 
-    def play(x_pos, y_pos):
+    def play(self):
         ''' '''
-        global turn
-        row = int(abs((y_pos - self.y_offset - 25) // (50) + 1))
-        col = int(abs((x_pos - self.x_offset - 25) // (50) + 1))
+        selected_row = int(input("enter row, player "+ str(self.turn) +": "))
+        selected_col = int(input("enter col, player "+ str(self.turn) +": "))
+        row = int(abs((selected_col - self.y_offset - 25) // (50) + 1))
+        col = int(abs((selected_row - self.x_offset - 25) // (50) + 1))
         print(row, col)
-        grid[row][col] = turn
-        draw_grid(self.x_offset, self.y_offset)
-        window.update()
+        self.grid[row][col] = self.turn
+        self.draw_grid()
+        self.window.update()
 
-        if check_win(turn, row, col):
-            print("player " + str(turn) + " won")
+        if self.check_win(self.turn, row, col):
+            print("player " + str(self.turn) + " won")
 
-        if turn == 1:
-            turn = 2
+        if self.turn == 1:
+            self.turn = 2
         else:
-            turn = 1
+            self.turn = 1
+    def initialize(self):
+        self.window.onscreenclick(self.play)
+        self.window.listen()
 
-
-class Game():
-    def __init__(x_offset=-150,y_offset=200,tile_size=50,window_length=800,window_width=600,nrow=5,ncol=7):
+def main():
     # setting up the window
-        my_turtle = make_turtle('classic', "white", (1, 1), (0, 0))
+    window=Window("Connect 4", "light sky blue",(800, 600)).make_window()
+    turtle=Turtle('classic', "white", (1, 1), (0, 0) )
+    turtle.make_turtle()
+    turtle=turtle.get_turtle()
+    grid=Grid(window,turtle,5,7,-150,200,50)    
+    grid.initialize()
+    grid.draw_grid()   
 
-        window = Window(my_turtle,"Connect 4", "light sky blue", (window_length, window_width))
+    while True: 
 
-
-
-
-
-        window.onscreenclick(play)
-        window.listen()
-
-        draw_grid( x_offset, y_offset)
-
-        while True: 
-            selected_row = int(input("enter row, player "+ str(turn) +": "))
-            selected_col = int(input("enter col, player "+ str(turn) +": "))
-            play(selected_row, selected_col)
+        grid.play()
+if __name__ == "__main__":
+	main()

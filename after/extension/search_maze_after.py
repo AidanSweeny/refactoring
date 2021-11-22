@@ -15,10 +15,10 @@ class Grid():
         self.tile_size=tile_size
         self.x_offset=x_offset
         self.y_offset=y_offset
-        self.position_dot_map={"X":['grey',"black"],"S":['grey',"yellow"],"E":['grey',"red"],'P':['grey',"royalblue"],'T':['grey', "light blue"],'D':[('gainsboro', "gray")]}
-    def draw_dot(self,type):
-        if type in self.position_dot_map.keys():
-            color=self.position_dot_map[type]
+        self.position_dot_map={"X":['grey',"black"],"S":['grey',"yellow"],"E":['grey',"red"],'P':['grey',"royalblue"],'T':['grey', "light blue"],'D':['gainsboro', "gray"]}
+    def draw_dot(self,position_type):
+        if position_type in self.position_dot_map.keys():
+            color=self.position_dot_map[position_type]
             self.turt.color(color[0],color[1])
         else:
             self.turt.color( 'grey', "white")
@@ -193,7 +193,7 @@ def main():
     time.sleep(4)
 
         # print the number of steps taken to find the path
-    print("number of steps taken to reach answer:", steps)
+    print("number of steps taken to reach answer:", grid.steps)
 
     # create a turtle and a window for drawing
 

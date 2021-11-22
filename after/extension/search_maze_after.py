@@ -7,16 +7,16 @@ from multiprocessing import Process
 
 
 class Grid():
-    def __init__(window,turt,tile_size,x_offset,y_offset):
+    def __init__(self,window,turt,tile_size,x_offset,y_offset):
         self.steps=0
         self.window=window
-        self.grid=grid
+        self.grid=[]
         self.turt=turt
         self.tile_size=tile_size
         self.x_offset=x_offset
         self.y_offset=y_offset
         self.position_dot_map={"X":['grey',"black"],"S":['grey',"yellow"],"E":['grey',"red"],'P':['grey',"royalblue"],'T':['grey', "light blue"],'D':[('gainsboro', "gray")]}
-    def draw_dot(type):
+    def draw_dot(self,type):
         if type in self.position_dot_map.keys():
             color=self.position_dot_map[type]
             self.turt.color(color[0],color[1])
@@ -24,7 +24,7 @@ class Grid():
             self.turt.color( 'grey', "white")
         self.turt.stamp()
 
-    def draw_grid():
+    def draw_grid(self):
         ''' draws a grid at x_pos, y_pos with a specific tile_size '''
 
         # turn off tracer for fast drawing
@@ -36,8 +36,8 @@ class Grid():
         self.turt.down()
 
         # go over every cell in the grid
-        for row in range(len(grid)):
-            for col in range(len(grid[row])):
+        for row in range(len(self.grid)):
+            for col in range(len(self.grid[row])):
                 
                 # move turtle to the position of the cell in the grid
                 self.turt.up()
@@ -52,7 +52,7 @@ class Grid():
         self.window.tracer(True)
 
 
-    def find_start(grid):
+    def find_start(self):
         ''' finds the start position (S) in the grid
         returns a tuple of start row and col
         '''
@@ -67,7 +67,7 @@ class Grid():
 
 
 
-    def read_grid(file_name):
+    def read_grid(self,file_name):
         ''' reads a maze file and initializes a gird with its contents '''
 
         # create an empty grid (an empty list called grid)
@@ -95,7 +95,7 @@ class Grid():
             line = line.replace('\n', '')
 
 
-    def search_from( row, col):
+    def search_from(self, row, col):
         ''' recursive function to search the grid for the end (E) '''
 
 
@@ -117,7 +117,7 @@ class Grid():
         
         # If the cell at row, col is not the start cell, mark the cell as tried (T)
         if self.grid[row][col] != 'S':
-            grid[row][col] = 'T'
+            self.grid[row][col] = 'T'
 
         # draw the grid
         self.draw_grid()
@@ -126,10 +126,10 @@ class Grid():
         time.sleep(0.25)
 
         # recursively search differnt directions adjacent to current row, col (up, down, left, right)
-        found = (search_from(self.grid, row-1, col)
-                or search_from(self.grid, row+1, col)
-                or search_from(self.grid, row, col-1)
-                or search_from(self.grid, row, col+1)
+        found = (self.search_from(row-1, col)
+                or self.search_from( row+1, col)
+                or self.search_from( row, col-1)
+                or self.search_from(row, col+1)
                 )
 
         # if any of the 4 directions returns True, mark the cel at row, col as part of the path and return True
@@ -144,7 +144,7 @@ class Grid():
    
    
 
-    def path_length():
+    def path_length(self):
         path = []
         for row in range(len(self.grid)):
             for col in range(len(self.grid[0])):

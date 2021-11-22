@@ -144,12 +144,12 @@ class Grid():
 class Game():
     def __init__(x_offset=-150,y_offset=200,tile_size=50,window_length=800,window_width=600,nrow=5,ncol=7):
     # setting up the window
-
-        window = make_window("Connect 4", "light sky blue", (window_length, window_width))
-
-
-
         my_turtle = make_turtle('classic', "white", (1, 1), (0, 0))
+
+        window = Window(my_turtle,"Connect 4", "light sky blue", (window_length, window_width))
+
+
+
 
 
         window.onscreenclick(play)

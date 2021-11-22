@@ -52,12 +52,12 @@ class Paddle:
         self.y_position = y
 
 
-    def get_xcor(self):
+    def xcor(self):
         ''' returns turtle x_cord '''
         return self.turt.get_turtle().xcor()
 
     
-    def get_ycor(self):
+    def ycor(self):
         ''' returns turtle y_cord '''
         return self.turt.get_turtle().ycor()
 
@@ -136,14 +136,28 @@ def checkKeys(window, paddle_1, paddle_2):
     window.onkeypress(paddle_2.up, "Up")
     window.onkeypress(paddle_2.down, "Down")    
 
+def rewrite_score(pen, ball, score_player1, score_player2):
+    pen.clear()
+    pen.write("Player A: "+ str(score_player1) + "  Player B: "+ str(score_player2), align="center", font=("Courier", 24, "normal"))
+    ball.goto(0, 0)
+    ball.ball_speed_x *= -1
+
+def check_colision(ball, paddle_1, paddle_2):
+    if ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() < paddle_1.ycor() + 50 and ball.ycor() > paddle_1.ycor() - 50:
+        ball.setx(-340)
+        ball.ball_speed_x *= -1.5
+        
+    elif ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < paddle_2.ycor() + 50 and ball.ycor() > paddle_2.ycor() - 50:
+        ball.setx(340)
+        ball.ball_speed_x *= -1.5
+
 def main():
     ''' the main function where the game events take place '''
 
     window = make_window("Pong - A CS151 Reproduction!", "black", 800, 600)
 
     # Score
-    score_player1 = 0
-    score_player2 = 0
+    score_player1, score_player2 = 0, 0
 
     paddle_1 = Paddle(Turtle("square", "white", (5, 1), (-350, 0)))
     paddle_2 = Paddle(Turtle("square", "white", (5, 1), (350, 0)))
@@ -166,27 +180,14 @@ def main():
         # Border checking    
         # Left and right
         if ball.xcor() > 350:
-            score_player1 += 1
-            pen.clear()
-            pen.write("Player A: "+ str(score_player1) + "  Player B: "+ str(score_player2), align="center", font=("Courier", 24, "normal"))
-            ball.goto(0, 0)
-            ball.ball_speed_x *= -1
+            rewrite_score(pen, ball, score_player1, score_player2)
 
         elif ball.xcor() < -350:
             score_player2 += 1
-            pen.clear()
-            pen.write("Player A: "+ str(score_player1) + "  Player B: "+ str(score_player2), align="center", font=("Courier", 24, "normal"))
-            ball.goto(0, 0)
-            ball.ball_speed_x *= -1
+            rewrite_score(pen, ball, score_player1, score_player2)
 
+        check_colision(ball, paddle_1, paddle_2)
         # Paddle and ball collisions
-        if ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() < paddle_1.get_ycor() + 50 and ball.ycor() > paddle_1.get_ycor() - 50:
-            ball.setx(-340)
-            ball.ball_speed_x *= -1.5
-        
-        elif ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < paddle_2.get_ycor() + 50 and ball.ycor() > paddle_2.get_ycor() - 50:
-            ball.setx(340)
-            ball.ball_speed_x *= -1.5
 
 
 

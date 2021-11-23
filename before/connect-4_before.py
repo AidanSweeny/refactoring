@@ -172,7 +172,7 @@ def main():
                 grid[selected_row][selected_col] = 2
 
         draw_grid(grid, my_turtle, -150, 200, 50)
-        window.update()
+        self.window.update()
 
         if check_win(grid, 1):
             print("player 1 won")
